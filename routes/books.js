@@ -1,10 +1,10 @@
 const express = require('express');
-const router = express.Router();  // Create a new router instance
-const db = require('../db/database');  // Import the database connection
+const router = express.Router();  
+const db = require('../db/database'); 
 
 // GET all books
 router.get('/books', (req, res) => {
-  const { author, genre } = req.query;  // Optionally filter by author and genre
+  const { author, genre } = req.query;  
   let query = 'SELECT * FROM books';
   let params = [];
 
@@ -23,10 +23,10 @@ router.get('/books', (req, res) => {
 
   db.all(query, params, (err, rows) => {
     if (err) {
-      console.error("Database Error: ", err);  // Log the error for debugging
+      console.error("Database Error: ", err);  
       res.status(500).json({ message: 'Error fetching books' });
     } else {
-      res.json(rows);  // Send the rows as the response
+      res.json(rows);  
     }
   });
 });
@@ -53,7 +53,7 @@ router.get('/books/:id', (req, res) => {
 router.post('/books', (req, res) => {
   const { title, authorID, genreID, pages, publishedDate } = req.body;
 
-  // Validate that all fields are provided
+  
   if (!title || !authorID || !genreID || !pages || !publishedDate) {
     return res.status(400).json({ message: 'All fields are required!' });
   }
@@ -63,7 +63,7 @@ router.post('/books', (req, res) => {
 
   db.run(query, params, function (err) {
     if (err) {
-      console.error("Database Error: ", err);  // Log the error for debugging
+      console.error("Database Error: ", err);  
       res.status(500).json({ message: 'Error adding book' });
     } else {
       res.status(201).json({ message: 'Book added', bookID: this.lastID });
@@ -104,5 +104,5 @@ router.delete('/books/:id', (req, res) => {
       }
     });
   });
-  
-module.exports = router;  // Export the router
+
+module.exports = router;  
